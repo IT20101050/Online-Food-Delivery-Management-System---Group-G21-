@@ -2,9 +2,321 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrimeDash - Delivery Dashboard</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 260px;
+            background-color: #121212;
+            border-right: 1px solid #2a2a2a;
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand {
+            color: #d4af37;
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        .brand-sub {
+            color: #888;
+            font-size: 10px;
+            letter-spacing: 1px;
+            margin-bottom: 40px;
+        }
+
+        .menu-title {
+            color: #666;
+            font-size: 11px;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .menu-item {
+            color: #a0a0a0;
+            text-decoration: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .menu-item.active {
+            background-color: #1a1813;
+            color: #d4af37;
+            border: 1px solid #4a3c17;
+        }
+
+        .menu-item:hover:not(.active) {
+            background-color: #1a1a1a;
+            color: #fff;
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            flex: 1;
+            padding: 30px 40px;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 400;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-primary {
+            background-color: #d4af37;
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: #141414;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 20px;
+            flex: 1;
+        }
+
+        .stat-title {
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .stat-sub {
+            font-size: 12px;
+            color: #2ecc71;
+        }
+
+        /* Table Section */
+        .table-section {
+            background-color: #141414;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 30px;
+            border-bottom: 1px solid #2a2a2a;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            color: #888;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .tab.active {
+            color: #d4af37;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            color: #666;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 10px;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        td {
+            padding: 15px 10px;
+            border-bottom: 1px solid #1f1f1f;
+            font-size: 14px;
+            color: #ddd;
+        }
+
+        .delivery-id {
+            color: #d4af37;
+            font-weight: 600;
+        }
+
+        .status-pill {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            background-color: transparent;
+        }
+
+        .status-ontheway { color: #5dade2; border: 1px solid #1a3c5a; background-color: rgba(93, 173, 226, 0.1); }
+        .status-preparing { color: #f39c12; border: 1px solid #5a3a0a; background-color: rgba(243, 156, 18, 0.1); }
+        .status-delivered { color: #2ecc71; border: 1px solid #0f4024; background-color: rgba(46, 204, 113, 0.1); }
+    </style>
 </head>
 <body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="brand">PRIMEDASH</div>
+    <div class="brand-sub">EXCEPTIONAL. DELIVERED.</div>
+
+    <div class="menu-title">WORKSPACE</div>
+    <a href="delivery-dashboard.html" class="menu-item active">Delivery dashboard</a>
+    <a href="assign-driver.html" class="menu-item">Assign driver</a>
+    <a href="update-status.html" class="menu-item">Update status</a>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+
+    <div class="header">
+        <div>
+            <h1>Delivery overview</h1>
+            <p style="color: #888; font-size: 14px; margin-top: 5px;">A closer look at every journey.</p>
+        </div>
+        <div class="header-actions">
+            <a href="#" class="btn-outline">Export</a>
+            <a href="assign-driver.html" class="btn-primary">Assign driver</a>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-title">Total deliveries</div>
+            <div class="stat-value">12</div>
+            <div class="stat-sub">Today's overview</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">Active deliveries</div>
+            <div class="stat-value">08</div>
+            <div class="stat-sub" style="color: #d4af37;">2 on the way</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">Delivered</div>
+            <div class="stat-value">04</div>
+            <div class="stat-sub">100% success rate</div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-section">
+        <div class="tabs">
+            <div class="tab active">All deliveries</div>
+            <div class="tab">Pending</div>
+            <div class="tab">Preparing</div>
+            <div class="tab">On the Way</div>
+            <div class="tab">Delivered</div>
+        </div>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Delivery ID</th>
+                <th>Estimated Time</th>
+                <th>Assigned Driver</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <div class="delivery-id">#DLV-2089</div>
+                    <div style="font-size: 12px; color: #666;">Maison Élégance</div>
+                </td>
+                <td>7:45 PM<br><span style="font-size: 12px; color: #666;">In 18 minutes</span></td>
+                <td>James Wilson<br><span style="font-size: 12px; color: #666;">DRV-001</span></td>
+                <td><span class="status-pill status-ontheway">● On the Way</span></td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="delivery-id">#DLV-2088</div>
+                    <div style="font-size: 12px; color: #666;">The Gilded Table</div>
+                </td>
+                <td>7:50 PM<br><span style="font-size: 12px; color: #666;">In 23 minutes</span></td>
+                <td>Olivia Martinez<br><span style="font-size: 12px; color: #666;">DRV-002</span></td>
+                <td><span class="status-pill status-preparing">● Preparing</span></td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="delivery-id">#DLV-2085</div>
+                    <div style="font-size: 12px; color: #666;">Maison Élégance</div>
+                </td>
+                <td>7:20 PM<br><span style="font-size: 12px; color: #666;">Arrived on time</span></td>
+                <td>Sophia Laurent<br><span style="font-size: 12px; color: #666;">DRV-004</span></td>
+                <td><span class="status-pill status-delivered">● Delivered</span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
 
 </body>
 </html>
