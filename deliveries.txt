@@ -2,3 +2,5 @@
 102,Preparing,15,Not_Assigned
 101,Delivered,30,Not_Assigned
 102,Preparing,15,Not_Assigned
+101,Delivered,30,Not_Assigned
+102,Preparing,15,Not_Assigned
